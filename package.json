@@ -2,7 +2,9 @@
   "name": "telegram-verification",
   "version": "1.0.0",
   "scripts": {
-    "build": "node build.js",
-    "postinstall": "echo 'No dependencies to install, you sneaky bastard.'"
+    "build": "echo 'No build step needed.'"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
   }
 }
